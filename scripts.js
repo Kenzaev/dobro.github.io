@@ -1,61 +1,35 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const gallery = document.getElementById('product-gallery');
-    const searchBar = document.getElementById('search-bar');
+    const productForm = document.getElementById('product-form');
 
-    function displayProducts(filter = '') {
-        gallery.innerHTML = '';
-        const products = JSON.parse(localStorage.getItem('products')) || [];
-        const filteredProducts = products.filter(product => product.name.toLowerCase().includes(filter.toLowerCase()));
+    productForm.addEventListener('submit', async function(event) {
+        event.preventDefault();
 
-        filteredProducts.forEach(product => {
-            const productDiv = document.createElement('div');
-            productDiv.classList.add('product');
+        const productName = document.getElementById('product-name').value;
+        const productPrice = document.getElementById('product-price').value;
+        const productImage = document.getElementById('product-image').value;
+        const productVideo = document.getElementById('product-video').value;
 
-            const img = document.createElement('img');
-            img.src = product.image;
-            img.alt = product.name;
+        const newProduct = {
+            name: productName,
+            price: productPrice,
+            image: productImage,
+            video: productVideo
+        };
 
-            const name = document.createElement('div');
-            name.classList.add('product-name');
-            name.textContent = product.name;
-
-            const price = document.createElement('div');
-            price.classList.add('product-price');
-            price.textContent = product.price;
-
-            const buttonContainer = document.createElement('div');
-            buttonContainer.classList.add('button-container');
-
-            const whatsappButton = document.createElement('button');
-            whatsappButton.classList.add('whatsapp-button');
-            whatsappButton.textContent = 'Заказать';
-            whatsappButton.addEventListener('click', function() {
-                window.open(`https://wa.me/YOUR_PHONE_NUMBER?text=Я хочу заказать ${product.name}`, '_blank');
-            });
-
-            const youtubeButton = document.createElement('button');
-            youtubeButton.classList.add('youtube-button');
-            youtubeButton.textContent = 'Обзор на YouTube';
-            youtubeButton.addEventListener('click', function() {
-                window.open(product.video, '_blank');
-            });
-
-            buttonContainer.appendChild(whatsappButton);
-            buttonContainer.appendChild(youtubeButton);
-
-            productDiv.appendChild(img);
-            productDiv.appendChild(name);
-            productDiv.appendChild(price);
-            productDiv.appendChild(buttonContainer);
-
-            gallery.appendChild(productDiv);
+        const response = await fetch('/api/products', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newProduct)
         });
-    }
 
-    searchBar.addEventListener('input', function() {
-        displayProducts(searchBar.value);
+        if (response.ok) {
+            alert('Товар добавлен успешно!');
+            productForm.reset();
+        } else {
+            alert('Ошибка при добавлении товара');
+        }
     });
-
-    // Отображение товаров при загрузке страницы
-    displayProducts();
 });
+
