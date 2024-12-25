@@ -3,19 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Бизнес Сайт</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Админ-панель</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <header>
-        <h1>Добро пожаловать</h1>
-        <input type="text" id="search-bar" placeholder="Поиск...">
+        <h1>Админ-панель</h1>
     </header>
     <main>
-        <section class="gallery" id="product-gallery">
-            <!-- Продукты будут добавлены здесь через JavaScript -->
-        </section>
+        <form id="product-form">
+            <label for="product-name">Название товара:</label>
+            <input type="text" id="product-name" name="product-name" required>
+
+            <label for="product-price">Цена:</label>
+            <input type="text" id="product-price" name="product-price" required>
+
+            <label for="product-image">Изображение:</label>
+            <input type="text" id="product-image" name="product-image" required>
+
+            <label for="product-video">Видео:</label>
+            <input type="text" id="product-video" name="product-video" required>
+
+            <button type="submit">Добавить товар</button>
+        </form>
     </main>
-    <script src="scripts.js"></script>
+    <script src="js/scripts.js"></script>
 </body>
 </html>
+
